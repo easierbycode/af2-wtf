@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { FirebaseRef } from 'angularfire2';
 
 @Component({
   moduleId: module.id,
@@ -8,4 +9,12 @@ import { Component } from '@angular/core';
 })
 export class Af2WtfAppComponent {
   title = 'af2-wtf works!';
+
+  constructor(@Inject(FirebaseRef) ref:Firebase) {
+    ref.on('value', this.doSomething);
+  }
+
+  doSomething( snapshot ) {
+    console.log( snapshot.val() );
+  }
 }
