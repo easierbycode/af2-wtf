@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
-import { FirebaseRef } from 'angularfire2';
+import { FirebaseApp, FirebaseRef } from 'angularfire2';
+
 
 @Component({
   moduleId: module.id,
@@ -9,9 +10,13 @@ import { FirebaseRef } from 'angularfire2';
 })
 export class Af2WtfAppComponent {
   title = 'af2-wtf works!';
+  app: firebase.app.App;
+  rootRef: firebase.database.Reference;
 
-  constructor(@Inject(FirebaseRef) ref:Firebase) {
-    ref.on('value', this.doSomething);
+  constructor(@Inject(FirebaseApp) firebaseApp: firebase.app.App) {
+    this.app = firebaseApp;
+    this.rootRef = this.app.database().ref();
+    this.rootRef.on('value', this.doSomething);
   }
 
   doSomething( snapshot ) {
